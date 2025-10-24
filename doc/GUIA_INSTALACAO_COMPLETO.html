@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Completo de Instalação - Sistema de Movimento de Caixa Webyte</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #718096;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #4a5568;
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+        }
+
+        .section h4 {
+            color: #2d3748;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #667eea;
+        }
+
+        .command {
+            background: #1a202c;
+            color: #68d391;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            border-left: 4px solid #68d391;
+        }
+
+        .warning {
+            background: #fed7d7;
+            border: 1px solid #feb2b2;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .success {
+            background: #c6f6d5;
+            border: 1px solid #9ae6b4;
+            color: #2f855a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .info {
+            background: #bee3f8;
+            border: 1px solid #90cdf4;
+            color: #2b6cb0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .step {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .step h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 15px;
+        }
+
+        .contact-info a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-info a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .file-structure {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background: #ffd700;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background: #f7fafc;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .badge-success {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .badge-warning {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .badge-info {
+            background: #bee3f8;
+            color: #2b6cb0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Sistema de Movimento de Caixa</h1>
+            <p>Guia Completo de Instalação e Implantação - Webyte Desenvolvimentos</p>
+            <p><strong>Versão:</strong> 2.1.0 | <strong>Data:</strong> Dezembro 2024</p>
+        </div>
+
+        <div class="contact-info">
+            <h3>📞 Suporte Técnico</h3>
+            <p><strong>WhatsApp:</strong> <a href="https://wa.me/5511984801839">(11) 98480-1839</a></p>
+            <p><strong>E-mail:</strong> <a href="mailto:junior@webytebr.com">junior@webytebr.com</a></p>
+            <p><strong>Empresa:</strong> Webyte Desenvolvimentos</p>
+        </div>
+
+        <!-- Índice -->
+        <div class="section">
+            <h2>📋 Índice</h2>
+            <ul>
+                <li><a href="#requisitos">Requisitos do Sistema</a></li>
+                <li><a href="#instalacao-local">Instalação em Localhost</a></li>
+                <li><a href="#instalacao-servidor">Instalação em Servidor Online</a></li>
+                <li><a href="#configuracao">Configuração Inicial</a></li>
+                <li><a href="#funcionalidades">Funcionalidades Principais</a></li>
+                <li><a href="#manutencao">Manutenção e Backup</a></li>
+                <li><a href="#troubleshooting">Solução de Problemas</a></li>
+                <li><a href="#atualizacoes">Atualizações</a></li>
+            </ul>
+        </div>
+
+        <!-- Requisitos -->
+        <div class="section" id="requisitos">
+            <h2>⚙️ Requisitos do Sistema</h2>
+            
+            <h3>Requisitos Mínimos</h3>
+            <div class="table">
+                <table class="table">
+                    <tr>
+                        <th>Componente</th>
+                        <th>Mínimo</th>
+                        <th>Recomendado</th>
+                    </tr>
+                    <tr>
+                        <td>Node.js</td>
+                        <td>v16.0.0</td>
+                        <td>v18.0.0 ou superior</td>
+                    </tr>
+                    <tr>
+                        <td>NPM</td>
+                        <td>v8.0.0</td>
+                        <td>v9.0.0 ou superior</td>
+                    </tr>
+                    <tr>
+                        <td>RAM</td>
+                        <td>2GB</td>
+                        <td>4GB ou mais</td>
+                    </tr>
+                    <tr>
+                        <td>Espaço em Disco</td>
+                        <td>500MB</td>
+                        <td>1GB ou mais</td>
+                    </tr>
+                    <tr>
+                        <td>Navegador</td>
+                        <td>Chrome 90+</td>
+                        <td>Chrome 100+</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="info">
+                <strong>💡 Dica:</strong> Para servidores online, recomenda-se usar VPS ou servidor dedicado com pelo menos 1GB de RAM e 10GB de espaço em disco.
+            </div>
+        </div>
+
+        <!-- Instalação Localhost -->
+        <div class="section" id="instalacao-local">
+            <h2>🏠 Instalação em Localhost (Desenvolvimento)</h2>
+
+            <div class="step">
+                <h4>Passo 1: Download do Projeto</h4>
+                <p>Baixe o projeto do repositório ou arquivo ZIP fornecido.</p>
+                <div class="command">git clone [URL_DO_REPOSITORIO]</div>
+                <p>ou extraia o arquivo ZIP em uma pasta de sua escolha.</p>
+            </div>
+
+            <div class="step">
+                <h4>Passo 2: Navegar para o Diretório</h4>
+                <div class="command">cd movimento-2</div>
+            </div>
+
+            <div class="step">
+                <h4>Passo 3: Instalar Dependências</h4>
+                <div class="command">npm install</div>
+                <div class="info">
+                    <strong>⏱️ Tempo estimado:</strong> 2-5 minutos dependendo da velocidade da internet.
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>Passo 4: Executar o Projeto</h4>
+                <div class="command">npm run dev</div>
+                <div class="success">
+                    <strong>✅ Sucesso!</strong> O sistema estará disponível em: <span class="highlight">http://localhost:5173</span>
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>Passo 5: Acessar o Sistema</h4>
+                <p>Abra seu navegador e acesse:</p>
+                <div class="code-block">http://localhost:5173</div>
+                <p>Você verá a landing page com opções de:</p>
+                <ul>
+                    <li><strong>Teste 30 Dias:</strong> R$ 29,99 (pagamento via PIX)</li>
+                    <li><strong>Demonstração:</strong> 5 minutos grátis</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Instalação Servidor -->
+        <div class="section" id="instalacao-servidor">
+            <h2>🌐 Instalação em Servidor Online (Produção)</h2>
+
+            <div class="warning">
+                <strong>⚠️ Importante:</strong> Para servidores online, você precisará de um servidor com Node.js instalado ou usar serviços como Vercel, Netlify, ou similar.
+            </div>
+
+            <h3>Opção 1: Vercel (Recomendado)</h3>
+            <div class="step">
+                <h4>Passo 1: Criar Conta na Vercel</h4>
+                <p>Acesse <a href="https://vercel.com" target="_blank">vercel.com</a> e crie uma conta gratuita.</p>
+            </div>
+
+            <div class="step">
+                <h4>Passo 2: Conectar Repositório</h4>
+                <p>Conecte sua conta GitHub/GitLab com a Vercel e selecione o repositório do projeto.</p>
+            </div>
+
+            <div class="step">
+                <h4>Passo 3: Configurar Build</h4>
+                <p>A Vercel detectará automaticamente que é um projeto Vite/React. As configurações padrão funcionarão perfeitamente.</p>
+            </div>
+
+            <div class="step">
+                <h4>Passo 4: Deploy</h4>
+                <p>Clique em "Deploy" e aguarde o processo. Seu sistema estará online em alguns minutos!</p>
+            </div>
+
+            <h3>Opção 2: Servidor VPS/Dedicado</h3>
+            <div class="step">
+                <h4>Passo 1: Preparar Servidor</h4>
+                <div class="command">
+                    # Atualizar sistema (Ubuntu/Debian)<br>
+                    sudo apt update && sudo apt upgrade -y<br><br>
+                    
+                    # Instalar Node.js<br>
+                    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -<br>
+                    sudo apt-get install -y nodejs<br><br>
+                    
+                    # Instalar PM2 para gerenciar processos<br>
+                    sudo npm install -g pm2
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>Passo 2: Upload do Projeto</h4>
+                <div class="command">
+                    # Via SCP/SFTP<br>
+                    scp -r movimento-2/ user@seu-servidor.com:/home/user/<br><br>
+                    
+                    # Ou via Git<br>
+                    git clone [URL_DO_REPOSITORIO]
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>Passo 3: Instalar e Configurar</h4>
+                <div class="command">
+                    cd movimento-2<br>
+                    npm install<br>
+                    npm run build<br><br>
+                    
+                    # Configurar PM2<br>
+                    pm2 start npm --name "movimento-caixa" -- start<br>
+                    pm2 save<br>
+                    pm2 startup
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>Passo 4: Configurar Nginx (Opcional)</h4>
+                <div class="code-block">
+server {
+    listen 80;
+    server_name seu-dominio.com;
+    
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuração -->
+        <div class="section" id="configuracao">
+            <h2>⚙️ Configuração Inicial</h2>
+
+            <h3>Configurações da Empresa</h3>
+            <p>Edite o arquivo <span class="highlight">src/config/system.ts</span> para personalizar:</p>
+            <div class="code-block">
+// Informações da empresa
+COMPANY: {
+  NAME: 'Webyte Desenvolvimentos',
+  ADDRESS: 'Rua Agrimensor Sugaya 1203, Bloco 5 Sala 32',
+  CITY: 'São Paulo - SP',
+  TECHNOLOGY: 'Webyte | Tecnologia Laravel',
+  BRAND: 'Webyte®'
+}
+            </div>
+
+            <h3>🎯 Sistema PIX Real Implementado</h3>
+            <p>O sistema agora possui <strong>cobrança PIX real</strong> com QR codes válidos que funcionam com qualquer banco:</p>
+            <div class="code-block">
+// Serviço PIX Real - src/services/pixService.ts
+- Geração automática de QR codes PIX no formato EMV
+- Validação de chaves PIX (CPF, CNPJ, email, telefone, aleatória)
+- Cálculo automático de CRC16 para QR codes válidos
+- Armazenamento local de cobranças
+- Integração com APIs PIX reais (preparado para produção)
+            </div>
+
+            <h3>🏢 Painel do Proprietário</h3>
+            <p>Novo painel completo para personalização do sistema:</p>
+            <div class="code-block">
+// Funcionalidades do Painel do Proprietário:
+✅ Configuração completa da empresa (CNPJ, endereço, contatos)
+✅ Configuração PIX personalizada (chave, banco, agência, conta)
+✅ Personalização visual (cores, logo, favicon)
+✅ Configurações do sistema (moeda, fuso horário, formatos)
+✅ Validação automática de dados
+✅ Interface intuitiva com abas organizadas
+            </div>
+
+            <h3>📱 Como Configurar</h3>
+            <p>1. Acesse o sistema e clique no botão <strong>"Proprietário"</strong> no cabeçalho</p>
+            <p>2. Configure todas as informações da sua empresa</p>
+            <p>3. Configure sua chave PIX real</p>
+            <p>4. Personalize as cores e logo da sua empresa</p>
+            <p>5. Salve as configurações</p>
+
+            <div class="success">
+                <strong>✅ Sistema PIX Real Ativo!</strong> Agora você pode receber pagamentos reais através do sistema. Os QR codes são válidos e funcionam com qualquer banco brasileiro.
+            </div>
+        </div>
+
+        <!-- Funcionalidades -->
+        <div class="section" id="funcionalidades">
+            <h2>🎯 Funcionalidades Principais</h2>
+
+            <h3>📊 Gestão de Caixa</h3>
+            <ul>
+                <li><strong>Entradas:</strong> Dinheiro, cartões, PIX, boletos, cheques</li>
+                <li><strong>Saídas:</strong> Devoluções, vales, descontos, correios</li>
+                <li><strong>Cálculo Automático:</strong> Totais em tempo real</li>
+                <li><strong>Validação:</strong> Verificação de dados</li>
+            </ul>
+
+            <h3>💳 Sistema PIX Real</h3>
+            <ul>
+                <li><strong>QR Codes Válidos:</strong> Geração automática de QR codes PIX no formato EMV oficial</li>
+                <li><strong>Múltiplas Chaves:</strong> Suporte a CPF, CNPJ, email, telefone e chave aleatória</li>
+                <li><strong>Validação Automática:</strong> Verificação de chaves PIX antes da geração</li>
+                <li><strong>Cobrança Real:</strong> Sistema preparado para receber pagamentos reais</li>
+                <li><strong>Download QR Code:</strong> Possibilidade de baixar o QR code como imagem</li>
+                <li><strong>Histórico de Cobranças:</strong> Armazenamento local de todas as transações</li>
+            </ul>
+
+            <h3>🏢 Painel do Proprietário</h3>
+            <ul>
+                <li><strong>Configuração da Empresa:</strong> CNPJ, razão social, endereço completo</li>
+                <li><strong>Dados de Contato:</strong> Telefone, email, site da empresa</li>
+                <li><strong>Configuração PIX:</strong> Chave PIX, banco, agência, conta</li>
+                <li><strong>Personalização Visual:</strong> Cores primárias, secundárias, logo, favicon</li>
+                <li><strong>Configurações do Sistema:</strong> Moeda, fuso horário, formatos de data/hora</li>
+                <li><strong>Validação Automática:</strong> Verificação de dados antes do salvamento</li>
+            </ul>
+
+            <h3>🧾 Sistema de Cheques</h3>
+            <ul>
+                <li><strong>À Vista:</strong> Cheques com valor único</li>
+                <li><strong>Predatados:</strong> Parcelamento automático</li>
+                <li><strong>Controle:</strong> Banco, agência, cliente, vencimento</li>
+                <li><strong>Cálculo:</strong> Soma automática dos valores</li>
+            </ul>
+
+            <h3>🚫 Controle de Cancelamentos</h3>
+            <ul>
+                <li><strong>Registro Completo:</strong> Pedido, vendedor, motivo</li>
+                <li><strong>Auditoria:</strong> Log de todas as operações</li>
+                <li><strong>Impressão:</strong> Cupom fiscal em negrito</li>
+                <li><strong>Relatórios:</strong> Detalhado e resumido</li>
+            </ul>
+
+            <h3>⏰ Sistema de Demo</h3>
+            <ul>
+                <li><strong>Tempo Limite:</strong> 5 minutos de teste</li>
+                <li><strong>Contato Automático:</strong> WhatsApp e e-mail</li>
+                <li><strong>Pagamento:</strong> Teste de 30 dias por R$ 29,99</li>
+                <li><strong>Interface:</strong> Popup otimizado e compacto</li>
+            </ul>
+
+            <h3>🖨️ Impressão e Relatórios</h3>
+            <ul>
+                <li><strong>Cupom Reduzido:</strong> Uma página contínua</li>
+                <li><strong>Relatório Completo:</strong> Detalhado com todas as informações</li>
+                <li><strong>Cancelamentos:</strong> Cupom fiscal específico</li>
+                <li><strong>Formatação:</strong> Texto em negrito para melhor visibilidade</li>
+            </ul>
+        </div>
+
+        <!-- Manutenção -->
+        <div class="section" id="manutencao">
+            <h2>🔧 Manutenção e Backup</h2>
+
+            <h3>Backup de Dados</h3>
+            <div class="step">
+                <h4>Backup Automático (LocalStorage)</h4>
+                <p>O sistema salva automaticamente os dados no navegador. Para fazer backup:</p>
+                <div class="code-block">
+// Acesse o console do navegador (F12)
+localStorage.getItem('cashFlowData');
+
+// Copie o resultado e salve em um arquivo .json
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>Restauração de Dados</h4>
+                <div class="code-block">
+// Cole os dados no console do navegador
+localStorage.setItem('cashFlowData', 'SEUS_DADOS_AQUI');
+
+// Recarregue a página
+location.reload();
+                </div>
+            </div>
+
+            <h3>Atualizações</h3>
+            <div class="step">
+                <h4>Atualização do Sistema</h4>
+                <div class="command">
+                    # Parar o sistema<br>
+                    pm2 stop movimento-caixa<br><br>
+                    
+                    # Atualizar código<br>
+                    git pull origin main<br><br>
+                    
+                    # Reinstalar dependências<br>
+                    npm install<br><br>
+                    
+                    # Rebuild<br>
+                    npm run build<br><br>
+                    
+                    # Reiniciar<br>
+                    pm2 restart movimento-caixa
+                </div>
+            </div>
+
+            <h3>Monitoramento</h3>
+            <div class="command">
+                # Verificar status<br>
+                pm2 status<br><br>
+                
+                # Ver logs<br>
+                pm2 logs movimento-caixa<br><br>
+                
+                # Monitorar recursos<br>
+                pm2 monit
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="section" id="troubleshooting">
+            <h2>🔍 Solução de Problemas</h2>
+
+            <h3>Problemas Comuns</h3>
+
+            <div class="step">
+                <h4>❌ Erro: "Port 5173 is in use"</h4>
+                <p><strong>Solução:</strong></p>
+                <div class="command">
+                    # Encontrar processo usando a porta<br>
+                    lsof -i :5173<br><br>
+                    
+                    # Matar processo<br>
+                    kill -9 [PID]<br><br>
+                    
+                    # Ou usar outra porta<br>
+                    npm run dev -- --port 5174
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>❌ Erro: "Cannot find module"</h4>
+                <p><strong>Solução:</strong></p>
+                <div class="command">
+                    # Limpar cache<br>
+                    npm cache clean --force<br><br>
+                    
+                    # Remover node_modules<br>
+                    rm -rf node_modules<br><br>
+                    
+                    # Reinstalar<br>
+                    npm install
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>❌ Erro: "Build failed"</h4>
+                <p><strong>Solução:</strong></p>
+                <div class="command">
+                    # Verificar Node.js<br>
+                    node --version<br>
+                    npm --version<br><br>
+                    
+                    # Atualizar Node.js se necessário<br>
+                    # Usar nvm para gerenciar versões<br>
+                    nvm install 18<br>
+                    nvm use 18
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>❌ Erro: "Página não carrega"</h4>
+                <p><strong>Solução:</strong></p>
+                <div class="command">
+                    # Verificar se o servidor está rodando<br>
+                    curl http://localhost:5173<br><br>
+                    
+                    # Verificar logs<br>
+                    pm2 logs movimento-caixa<br><br>
+                    
+                    # Reiniciar serviço<br>
+                    pm2 restart movimento-caixa
+                </div>
+            </div>
+
+            <h3>Logs e Debugging</h3>
+            <div class="code-block">
+// Habilitar logs detalhados
+console.log('Debug info:', data);
+
+// Verificar dados no localStorage
+console.log(localStorage.getItem('cashFlowData'));
+
+// Verificar erros no console do navegador
+// Pressione F12 e vá para a aba Console
+            </div>
+        </div>
+
+        <!-- Atualizações -->
+        <div class="section" id="atualizacoes">
+            <h2>🔄 Atualizações</h2>
+
+            <h3>Versão Atual: 2.1.0</h3>
+            <div class="info">
+                <strong>📅 Última Atualização:</strong> Dezembro 2024
+            </div>
+
+            <h3>Changelog</h3>
+            <div class="step">
+                <h4>v2.1.0 - Dezembro 2024</h4>
+                <ul>
+                    <li><span class="badge badge-success">NOVO</span> Sistema de pagamento PIX integrado</li>
+                    <li><span class="badge badge-success">NOVO</span> Teste de 30 dias por R$ 29,99</li>
+                    <li><span class="badge badge-success">NOVO</span> Timer de demo com popup otimizado</li>
+                    <li><span class="badge badge-success">NOVO</span> Sistema de cheques reformulado</li>
+                    <li><span class="badge badge-success">NOVO</span> Impressão de cancelamentos corrigida</li>
+                    <li><span class="badge badge-info">MELHORIA</span> Design modernizado com gradientes</li>
+                    <li><span class="badge badge-info">MELHORIA</span> Animações e efeitos visuais</li>
+                    <li><span class="badge badge-info">MELHORIA</span> Responsividade aprimorada</li>
+                </ul>
+            </div>
+
+            <h3>Próximas Atualizações</h3>
+            <ul>
+                <li>Dashboard com gráficos</li>
+                <li>Relatórios em PDF</li>
+                <li>Sistema de usuários</li>
+                <li>API REST</li>
+                <li>App mobile</li>
+            </ul>
+
+            <div class="success">
+                <strong>✅ Sistema Atualizado!</strong> Sempre mantenha seu sistema atualizado para ter acesso às últimas funcionalidades e correções.
+            </div>
+        </div>
+
+        <!-- Contato Final -->
+        <div class="contact-info">
+            <h3>🎯 Precisa de Ajuda?</h3>
+            <p>Nossa equipe está sempre disponível para ajudar você!</p>
+            <p><strong>WhatsApp:</strong> <a href="https://wa.me/5511984801839">(11) 98480-1839</a></p>
+            <p><strong>E-mail:</strong> <a href="mailto:junior@webytebr.com">junior@webytebr.com</a></p>
+            <p><strong>Horário:</strong> Segunda a Sexta, 8h às 18h</p>
+        </div>
+
+        <div class="section">
+            <h2>📄 Licença e Termos</h2>
+            <p><strong>Desenvolvido por:</strong> Webyte Desenvolvimentos</p>
+            <p><strong>Endereço:</strong> Rua Agrimensor Sugaya 1203, Bloco 5 Sala 32, São Paulo - SP</p>
+            <p><strong>CNPJ:</strong> [CNPJ da empresa]</p>
+            <p><strong>Versão:</strong> 2.1.0</p>
+            <p><strong>Data:</strong> Dezembro 2024</p>
+            
+            <div class="warning">
+                <strong>⚠️ Aviso Legal:</strong> Este sistema é propriedade da Webyte Desenvolvimentos. 
+                O uso não autorizado ou distribuição sem permissão é proibido.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+Execulte o meu comando por favor para fazer essa super atualização. E corrija todos os problemas de sincronização da aplicação. E também todos os textos do cupom devem ser negritos.
+
+Atualização de Requisitos do Sistema - Integração de API para Licenciamento com CallMeBot
+📌 Objetivo
+Adicionar ao sistema um mecanismo de licenciamento via API, que permita:
+
+Período de testes de 7 dias por usuário.
+
+Após esse prazo, o sistema deverá:
+
+Bloquear o acesso do usuário.
+
+Solicitar uma chave de licença válida para reativação.
+
+Uma notificação via WhatsApp deverá ser enviada automaticamente para o desenvolvedor, contendo:
+
+Aviso de que o período de testes de um usuário terminou.
+
+Uma chave de ativação aleatória, gerada automaticamente pelo sistema.
+
+Essa chave será fornecida manualmente ao usuário para liberação.
+
+🔐 Lógica do Licenciamento
+Ao registrar um novo usuário:
+
+Iniciar automaticamente o período de testes de 7 dias.
+
+Armazenar a data de início do teste no banco de dados.
+
+Verificação diária (ou a cada login):
+
+Verificar se o período de testes expirou.
+
+Caso expirado:
+
+Bloquear acesso ao sistema.
+
+Exibir mensagem solicitando chave de ativação.
+
+Gerar chave aleatória única (ex: UUID, token de 10 caracteres, etc).
+
+Enviar notificação via API do CallMeBot com os seguintes dados:
+
+nginx
+Copiar
+Editar
+Mensagem para o WhatsApp:
+"O teste de um usuário expirou. Chave de ativação gerada: <CHAVE_GERADA>"
+Ao inserir a chave correta:
+
+Validar a chave no sistema.
+
+Liberar acesso por tempo determinado (pode ser permanente ou por nova validade, conforme preferir).
+
+📲 Integração com CallMeBot - Envio de WhatsApp
+Número autorizado: +5511984801839
+API Key do CallMeBot: 1782254
+
+📤 Requisição HTTP para envio da notificação:
+http
+Copiar
+Editar
+GET https://api.callmebot.com/whatsapp.php?phone=+5511984801839&text=O+teste+de+um+usuário+expirou.+Chave+de+ativação:+<CHAVE_GERADA>&apikey=1782254
+Substitua <CHAVE_GERADA> pela chave aleatória gerada no sistema.
+
+🔄 Requisitos Técnicos
+A chave de ativação deve ser única por usuário e ter validade opcional (se aplicável).
+
+O backend do sistema deve realizar a geração da chave e o envio da notificação assim que a expiração for detectada.
+
+É recomendado salvar a chave gerada e o status (ativado/desativado) no banco de dados.
+
+O sistema deve permitir inserir a chave via interface de usuário após a expiração.
+
+Oi Agora tem um problema veja na imagem, faça uma auditoria completa para resolver quais quer problemas de calculo do sistema. Isso não pode acontecer. 
+E em "Transportadora (envio para destinatário)" não precisa colocar o valor, pois quem paga é o destinátario direto com a transportadora. Ou seja os calculos não estão sendo feitos corretamente. 
+E em "Transportadora (envio para destinatário)" os dados para preenchimento so dever aparecer quando eu começar a digitar o nome do cliente. 
+Isso também serve para "Correios/Frete (múltiplos envios)", os campos para preenchimento so dever aparecer quando eu selecionar o tipo de envio. Faça essas atualizações e correções por favor.
+
+Olá preciso que faça algumas melhorias, correções e atualizações no meu sistema. Em "Controle de Cancelamentos" verifique porque as informações preenchidas não estão saindo corretamente no cupom de cancelamento. Faça uma auditoria para corrigir e melhoras as informações do cupom de cancelamento. E por favor, aumente o tamanho da fonte do cupom de cancelamento e deixe todoso os textos e números negritos. No cupom de cancelamento deve sair exatamente as informações de cupons cancelados, apenas as informações dos cupons e nada mais. Também faça uma atualização para que o "Número do Novo Pedido que Substituiu" não seja obrigatório, pois o cliente pode desistir de uma compra. Em fim melhore tudo sobre o cupom de cancelamento, e o mais importante sincronize todas as funções com o meu sistema.
+
+Agora otimize o popup de pagamento de 30 dias para ser mais compacto ou cria uma página completa para ele. E verifique porque o QRcode não está sendo gerado para pagamento. 

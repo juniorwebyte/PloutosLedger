@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Instalação - Sistema de Movimento de Caixa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #718096;
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        .section h2 {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section h3 {
+            color: #4a5568;
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .section h4 {
+            color: #2d3748;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #667eea;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            border: 2px solid #fc8181;
+            color: #c53030;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            border: 2px solid #68d391;
+            color: #2f855a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .info {
+            background: linear-gradient(135deg, #bee3f8, #90cdf4);
+            border: 2px solid #63b3ed;
+            color: #2b6cb0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .command {
+            background: #4a5568;
+            color: #f7fafc;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .file-structure {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .toc {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .toc h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .toc li:hover {
+            background: white;
+            transform: translateX(10px);
+        }
+
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+        }
+
+        .toc a:hover {
+            color: #764ba2;
+        }
+
+        .version-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Sistema de Movimento de Caixa</h1>
+            <p>Guia Completo de Instalação e Configuração</p>
+            <div class="version-badge">v2.1.0</div>
+        </div>
+
+        <div class="toc">
+            <h2>📋 Índice</h2>
+            <ul>
+                <li><a href="#requisitos">📋 Requisitos do Sistema</a></li>
+                <li><a href="#instalacao-local">💻 Instalação Local (Desenvolvimento)</a></li>
+                <li><a href="#xampp">🖥️ Configuração XAMPP (Localhost)</a></li>
+                <li><a href="#servidor-web">🌐 Configuração de Servidor Web</a></li>
+                <li><a href="#deploy">🚀 Deploy em Produção</a></li>
+                <li><a href="#configuracao">⚙️ Configurações Avançadas</a></li>
+                <li><a href="#troubleshooting">🔧 Solução de Problemas</a></li>
+                <li><a href="#manutencao">🛠️ Manutenção e Atualizações</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="section" id="requisitos">
+                <h2><div class="icon">📋</div>Requisitos do Sistema</h2>
+                
+                <h3>Requisitos Mínimos</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Node.js:</strong> Versão 18.0.0 ou superior
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>npm:</strong> Versão 8.0.0 ou superior
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Navegador:</strong> Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+                </div>
+
+                <h3>Requisitos Recomendados</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Node.js:</strong> Versão 20.0.0 LTS
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>RAM:</strong> 4GB ou superior
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Armazenamento:</strong> 2GB de espaço livre
+                </div>
+
+                <div class="info">
+                    <strong>💡 Dica:</strong> Para verificar suas versões, execute no terminal:
+                    <div class="code-block">
+                        node --version<br>
+                        npm --version
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="instalacao-local">
+                <h2><div class="icon">💻</div>Instalação Local (Desenvolvimento)</h2>
+                
+                <h3>1. Clone do Repositório</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Abra o terminal e navegue para a pasta desejada
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Execute o comando de clone:
+                    <div class="code-block">
+                        git clone https://github.com/webyte/sistema-movimento-caixa.git<br>
+                        cd sistema-movimento-caixa
+                    </div>
+                </div>
+
+                <h3>2. Instalação de Dependências</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Instale as dependências do projeto:
+                    <div class="code-block">
+                        npm install
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Aguarde a instalação completa (pode levar alguns minutos)
+                </div>
+
+                <h3>3. Execução em Modo Desenvolvimento</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Inicie o servidor de desenvolvimento:
+                    <div class="code-block">
+                        npm run dev
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    O sistema abrirá automaticamente em: <strong>http://localhost:5173</strong>
+                </div>
+
+                <h3>4. Build para Produção</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Para gerar os arquivos de produção:
+                    <div class="code-block">
+                        npm run build
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Os arquivos serão gerados na pasta <strong>dist/</strong>
+                </div>
+
+                <div class="success">
+                    <strong>✅ Sucesso!</strong> O sistema está funcionando localmente em modo desenvolvimento.
+                </div>
+            </div>
+
+            <div class="section" id="xampp">
+                <h2><div class="icon">🖥️</div>Configuração XAMPP (Localhost)</h2>
+                
+                <h3>1. Instalação do XAMPP</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Baixe o XAMPP em: <a href="https://www.apachefriends.org/" target="_blank">https://www.apachefriends.org/</a>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Execute o instalador e siga o assistente padrão
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Inicie o painel de controle do XAMPP
+                </div>
+
+                <h3>2. Configuração do Apache</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    No painel do XAMPP, clique em "Config" → "httpd.conf"
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Localize a linha <strong>DocumentRoot</strong> e configure:
+                    <div class="code-block">
+                        DocumentRoot "C:/xampp/htdocs/movimento"<br>
+                        &lt;Directory "C:/xampp/htdocs/movimento"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Options Indexes FollowSymLinks MultiViews<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;AllowOverride All<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Require all granted<br>
+                        &lt;/Directory&gt;
+                    </div>
+                </div>
+
+                <h3>3. Deploy da Aplicação</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Execute o build da aplicação:
+                    <div class="code-block">
+                        npm run build
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Copie todo o conteúdo da pasta <strong>dist</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Cole na pasta <strong>C:/xampp/htdocs/movimento/</strong>
+                </div>
+
+                <h3>4. Acesso ao Sistema</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Inicie o Apache no painel do XAMPP
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Acesse: <strong>http://localhost/movimento/</strong>
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ Importante:</strong> Certifique-se de que a porta 80 não está sendo usada por outro serviço.
+                </div>
+            </div>
+
+            <div class="section" id="servidor-web">
+                <h2><div class="icon">🌐</div>Configuração de Servidor Web</h2>
+                
+                <h3>Apache (Produção)</h3>
+                
+                <h4>1. Configuração do Virtual Host</h4>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Crie um arquivo de configuração:
+                    <div class="code-block">
+                        sudo nano /etc/apache2/sites-available/movimento.conf
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Adicione a configuração:
+                    <div class="code-block">
+                        &lt;VirtualHost *:80&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ServerName seu-dominio.com<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;DocumentRoot /var/www/movimento<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;Directory /var/www/movimento&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Options -Indexes +FollowSymLinks<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AllowOverride All<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Require all granted<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/Directory&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ErrorLog ${APACHE_LOG_DIR}/movimento_error.log<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;CustomLog ${APACHE_LOG_DIR}/movimento_access.log combined<br>
+                        &lt;/VirtualHost&gt;
+                    </div>
+                </div>
+
+                <h4>2. Habilitar o Site</h4>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Habilite o site e reinicie o Apache:
+                    <div class="code-block">
+                        sudo a2ensite movimento.conf<br>
+                        sudo systemctl restart apache2
+                    </div>
+                </div>
+
+                <h4>3. Arquivo .htaccess</h4>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Crie um arquivo <strong>.htaccess</strong> na raiz:
+                    <div class="code-block">
+                        RewriteEngine On<br>
+                        RewriteBase /<br>
+                        RewriteRule ^index\.html$ - [L]<br>
+                        RewriteCond %{REQUEST_FILENAME} !-f<br>
+                        RewriteCond %{REQUEST_FILENAME} !-d<br>
+                        RewriteRule . /index.html [L]<br><br>
+                        # Cache para arquivos estáticos<br>
+                        &lt;FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg)$"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ExpiresActive On<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ExpiresDefault "access plus 1 year"<br>
+                        &lt;/FilesMatch&gt;
+                    </div>
+                </div>
+
+                <h3>Nginx (Alternativa)</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Crie um arquivo de configuração:
+                    <div class="code-block">
+                        server {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;server_name seu-dominio.com;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;root /var/www/movimento;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;index index.html;<br><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;location / {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try_files $uri $uri/ /index.html;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expires 1y;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add_header Cache-Control "public, immutable";<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="deploy">
+                <h2><div class="icon">🚀</div>Deploy em Produção</h2>
+                
+                <h3>1. Preparação dos Arquivos</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Execute o build de produção:
+                    <div class="code-block">
+                        npm run build
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Verifique se a pasta <strong>dist</strong> foi criada
+                </div>
+
+                <h3>2. Upload para o Servidor</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Use FTP, SFTP ou SCP para enviar os arquivos
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Envie todo o conteúdo da pasta <strong>dist</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Coloque no diretório raiz do seu servidor web
+                </div>
+
+                <h3>3. Configuração de Permissões</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Configure as permissões corretas:
+                    <div class="code-block">
+                        sudo chown -R www-data:www-data /var/www/movimento<br>
+                        sudo chmod -R 755 /var/www/movimento
+                    </div>
+                </div>
+
+                <h3>4. Teste Final</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Acesse o sistema pelo navegador
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Teste todas as funcionalidades principais
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Verifique se a impressão está funcionando
+                </div>
+
+                <div class="success">
+                    <strong>🎉 Parabéns!</strong> O sistema está funcionando em produção.
+                </div>
+            </div>
+
+            <div class="section" id="configuracao">
+                <h2><div class="icon">⚙️</div>Configurações Avançadas</h2>
+                
+                <h3>Variáveis de Ambiente</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Crie um arquivo <strong>.env</strong> na raiz do projeto:
+                    <div class="code-block">
+                        # Configurações do Sistema<br>
+                        VITE_APP_TITLE=Sistema de Movimento de Caixa<br>
+                        VITE_APP_VERSION=2.1.0<br>
+                        VITE_APP_AUTHOR=Webyte<br><br>
+                        # Configurações de API (futuro)<br>
+                        VITE_API_URL=http://localhost:8000/api<br>
+                        VITE_API_TIMEOUT=30000
+                    </div>
+                </div>
+
+                <h3>Configuração do Vite</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Edite o arquivo <strong>vite.config.ts</strong>:
+                    <div class="code-block">
+                        import { defineConfig } from 'vite'<br>
+                        import react from '@vitejs/plugin-react'<br><br>
+                        export default defineConfig({<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;plugins: [react()],<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;server: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;port: 5173,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;host: true<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;build: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outDir: 'dist',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sourcemap: false,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minify: 'terser'<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        })
+                    </div>
+                </div>
+
+                <h3>Configuração do Tailwind CSS</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Edite o arquivo <strong>tailwind.config.js</strong>:
+                    <div class="code-block">
+                        /** @type {import('tailwindcss').Config} */<br>
+                        export default {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;content: [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"./index.html",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"./src/**/*.{js,ts,jsx,tsx}",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;],<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;theme: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extend: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colors: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;primary: '#667eea',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;secondary: '#764ba2'<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;plugins: [],<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="troubleshooting">
+                <h2><div class="icon">🔧</div>Solução de Problemas</h2>
+                
+                <h3>Problemas Comuns</h3>
+                
+                <h4>1. Erro de Porta em Uso</h4>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Sintoma:</strong> "Port 5173 is already in use"
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Solução:</strong> Mude a porta no vite.config.ts ou mate o processo:
+                    <div class="code-block">
+                        # Windows<br>
+                        netstat -ano | findstr :5173<br>
+                        taskkill /PID [PID] /F<br><br>
+                        # Linux/Mac<br>
+                        lsof -ti:5173 | xargs kill -9
+                    </div>
+                </div>
+
+                <h4>2. Erro de Dependências</h4>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Sintoma:</strong> "Cannot find module"
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Solução:</strong> Reinstale as dependências:
+                    <div class="code-block">
+                        rm -rf node_modules package-lock.json<br>
+                        npm install
+                    </div>
+                </div>
+
+                <h4>3. Erro de Build</h4>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Sintoma:</strong> "Build failed"
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Solução:</strong> Verifique os erros de TypeScript:
+                    <div class="code-block">
+                        npm run type-check
+                    </div>
+                </div>
+
+                <h4>4. Problemas de Impressão</h4>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Sintoma:</strong> Impressão não funciona
+                </div>
+                    <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Solução:</strong> Verifique as permissões do navegador e teste em modo incógnito
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ Importante:</strong> Sempre verifique o console do navegador (F12) para erros detalhados.
+                </div>
+            </div>
+
+            <div class="section" id="manutencao">
+                <h2><div class="icon">🛠️</div>Manutenção e Atualizações</h2>
+                
+                <h3>Atualizações de Dependências</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Verifique atualizações disponíveis:
+                    <div class="code-block">
+                        npm outdated
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Atualize as dependências:
+                    <div class="code-block">
+                        npm update
+                    </div>
+                </div>
+
+                <h3>Backup de Dados</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Os dados são salvos no localStorage do navegador
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Para backup, exporte os dados usando "Gerar Arquivo de Fechamento"
+                </div>
+
+                <h3>Logs e Monitoramento</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Monitore os logs do servidor web
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Verifique o console do navegador para erros
+                </div>
+
+                <h3>Atualizações do Sistema</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Faça backup dos dados existentes
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Substitua os arquivos no servidor
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Teste todas as funcionalidades
+                </div>
+
+                <div class="info">
+                    <strong>💡 Dica:</strong> Mantenha sempre uma versão de backup antes de atualizações.
+                </div>
+            </div>
+        </div>
+
+        <div class="header" style="margin-top: 30px;">
+            <h2>🎯 Próximos Passos</h2>
+            <p>Após a instalação, consulte a documentação completa para uso do sistema</p>
+            <div style="margin-top: 20px;">
+                <a href="README.md" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">📚 Documentação Completa</a>
+                <a href="CHANGELOG.md" style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">📝 Changelog</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight da seção ativa no TOC
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const tocLinks = document.querySelectorAll('.toc a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.parentElement.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.parentElement.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

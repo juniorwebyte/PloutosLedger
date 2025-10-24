@@ -1,0 +1,9 @@
+PloutosLedger
+
+Por quê: Ploutos (Plutus) é o deus da riqueza — simboliza abundância e organização financeira.
+
+Sensação: mais técnico e corporativo, ótimo se o público for mais contábil.
+
+Slogan sugerido: “A riqueza começa com controle.”
+
+Olá bom dia, preciso fazer algumas mudanças no meu projeto e também algumas atualizações e melhorias. Segue primeira atualização. Em "SAÍDAS" no campo "Saída (Retirada) (apenas registro)" preciso que faça uma atualização. Agora o campo "Saída (Retirada) (apenas registro)" funcionará da seguinte forma, o usuário adicionará o valor de cada saida individualmente como funciona a logica do campo "Crédito/Devolução (múltiplas devoluções)" que no campo "Saída (Retirada) (apenas registro)", ao inves de adicionar ao movimento, eu retiro o valor do movimento, mantendo a logica parecida, sendo opcional remover do movimento ou não. Melhore o design do sistema trasendo mais inovações, verifique porque as informações do "Painel do Proprietário", a chave PIX está mostrando como invalida. Também verifique porque também não consigo alterar a Logo do sistema e nem o favicon. Também percebi que ao escanear o QRcode na landingpage com o aplicativo do meu banco, não consigo fazer o pagamento via PIX. Por favor faça todas as melhorias e atualizações que solicitei.

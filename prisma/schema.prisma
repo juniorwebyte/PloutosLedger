@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String  @id @default(uuid())
+  username  String  @unique
+  password  String
+  role      String  @default("user") // user | admin | superadmin
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  license   License?
+  tenants   UserTenant[]
+}
+
+model License {
+  id           String   @id @default(uuid())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String   @unique
+  status       String   // trial | active | expired | blocked
+  trialStart   DateTime
+  trialDays    Int
+  activationKey String?
+  activatedAt  DateTime?
+  validUntil   DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Multi-tenant básico
+model Tenant {
+  id            String          @id @default(uuid())
+  name          String          @unique
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  users         UserTenant[]
+  subscriptions Subscription[]
+}
+
+model UserTenant {
+  userId    String
+  tenantId  String
+  role      String   @default("member") // owner | member | billing
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@id([userId, tenantId])
+}
+
+model Plan {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  priceCents  Int
+  interval    String   // monthly | yearly
+  features    String?  // JSON string instead of Json type
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id         String   @id @default(uuid())
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId   String
+  plan       Plan     @relation(fields: [planId], references: [id])
+  planId     String
+  status     String   // active | past_due | canceled | trialing
+  startedAt  DateTime @default(now())
+  validUntil DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+
