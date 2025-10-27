@@ -19,7 +19,12 @@ function loadFromStorage(): PlanRecord[] {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultPlans();
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) return parsed as PlanRecord[];
+    if (Array.isArray(parsed)) {
+      // Validar que cada plano tem as propriedades necessárias
+      const validPlans = parsed.filter((p: any) => p && p.id && p.name && typeof p.priceCents === 'number');
+      if (validPlans.length === 0) return defaultPlans();
+      return validPlans as PlanRecord[];
+    }
     return defaultPlans();
   } catch {
     return defaultPlans();

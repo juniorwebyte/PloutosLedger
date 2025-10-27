@@ -58,7 +58,6 @@ interface LandingPageNewProps {
 export default function LandingPageNew({ onRequestLogin, onRequestDemo, onOpenAdmin }: LandingPageNewProps) {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<PlanRecord | null>(null);
-  const [showPaymentPage, setShowPaymentPage] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showFooterPage, setShowFooterPage] = useState(false);
   const [showClientRegistration, setShowClientRegistration] = useState(false);
@@ -66,7 +65,6 @@ export default function LandingPageNew({ onRequestLogin, onRequestDemo, onOpenAd
   const [showChat, setShowChat] = useState(false);
   const [isChatMinimized, setIsChatMinimized] = useState(false);
   const [showCadernoDemo, setShowCadernoDemo] = useState(false);
-  const [selectedPlanForPayment, setSelectedPlanForPayment] = useState<PlanRecord | null>(null);
 
   useEffect(() => {
     const unsub = plansService.subscribe((updated) => setPlans(updated));
@@ -74,7 +72,6 @@ export default function LandingPageNew({ onRequestLogin, onRequestDemo, onOpenAd
   }, []);
 
   const handlePaymentComplete = (paymentData: any) => {
-    setShowPaymentPage(false);
     setShowPaymentModal(false);
     onRequestLogin();
   };
@@ -421,7 +418,7 @@ export default function LandingPageNew({ onRequestLogin, onRequestDemo, onOpenAd
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {plans.map((plan, index) => (
+            {plans.filter(plan => plan && plan.name && plan.priceCents).map((plan, index) => (
               <div 
                 key={plan.id} 
                 className={`relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 ${
@@ -467,8 +464,10 @@ export default function LandingPageNew({ onRequestLogin, onRequestDemo, onOpenAd
 
                 <button
                   onClick={() => { 
-                    setSelectedPlanForPayment(plan); 
-                    setShowPaymentPage(true); 
+                    if(plan && plan.name) {
+                      setSelectedPlan(plan); 
+                      setShowPaymentModal(true); 
+                    }
                   }}
                   className={`w-full px-6 py-4 rounded-xl font-medium transition-all duration-200 ${
                     plan.isRecommended
@@ -580,11 +579,9 @@ export default function LandingPageNew({ onRequestLogin, onRequestDemo, onOpenAd
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
         onPaymentComplete={handlePaymentComplete}
-        onOpenFullPage={() => { setShowPaymentModal(false); setShowPaymentPage(true); }}
-        selectedPlan={selectedPlan ? { name: selectedPlan.name, priceCents: selectedPlan.priceCents, interval: selectedPlan.interval } : null}
+        selectedPlan={selectedPlan && selectedPlan.name ? { name: selectedPlan.name, priceCents: selectedPlan.priceCents, interval: selectedPlan.interval } : null}
       />
 
-      {showPaymentPage && <PaymentPage />}
       {showFooterPage && <FooterPages onBackToLanding={() => setShowFooterPage(false)} />}
       {showClientRegistration && (
         <ClientRegistration
@@ -616,22 +613,6 @@ export default function LandingPageNew({ onRequestLogin, onRequestDemo, onOpenAd
         <CadernoDemo onClose={() => setShowCadernoDemo(false)} />
       )}
 
-      {/* Payment Page */}
-      {showPaymentPage && selectedPlanForPayment && (
-        <PaymentPage
-          selectedPlan={selectedPlanForPayment}
-          onBack={() => {
-            setShowPaymentPage(false);
-            setSelectedPlanForPayment(null);
-          }}
-          onSuccess={(plan) => {
-            setShowPaymentPage(false);
-            setSelectedPlanForPayment(null);
-            // Redirecionar para login ou dashboard
-            onRequestLogin();
-          }}
-        />
-      )}
     </div>
   );
 }

@@ -593,12 +593,12 @@ export default function LandingPage({ onRequestLogin, onRequestDemo, onOpenAdmin
             <p className="text-xl text-gray-600">Escolha o melhor para o seu negócio</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {plans.map((p)=> (
+            {plans.filter(p => p && p.name && p.priceCents).map((p)=> (
               <div key={p.id} className="bg-gradient-to-br from-gray-50 to-blue-50 p-8 rounded-3xl shadow hover:shadow-xl transition">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{p.name}</h3>
                 <div className="text-4xl font-extrabold text-blue-700 mb-4">R$ {(p.priceCents/100).toLocaleString('pt-BR',{minimumFractionDigits:2})}<span className="text-base text-gray-500 font-medium">/{p.interval==='monthly'?'mês':'ano'}</span></div>
                 <p className="text-gray-600 mb-6">{p.features || 'Recursos profissionais'}</p>
-                <button onClick={()=>{ setSelectedPlan(p); setShowPaymentModal(true); }} className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl hover:opacity-95">Assinar</button>
+                <button onClick={()=>{ if(p && p.name) { setSelectedPlan(p); setShowPaymentModal(true); } }} className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl hover:opacity-95">Assinar</button>
               </div>
             ))}
           </div>
@@ -1059,7 +1059,7 @@ export default function LandingPage({ onRequestLogin, onRequestDemo, onOpenAdmin
         onClose={() => setShowPaymentModal(false)}
         onPaymentComplete={handlePaymentComplete}
         onOpenFullPage={() => { setShowPaymentModal(false); setShowPaymentPage(true); }}
-        selectedPlan={selectedPlan ? { name: selectedPlan.name, priceCents: selectedPlan.priceCents, interval: selectedPlan.interval } : null}
+        selectedPlan={selectedPlan && selectedPlan.name ? { name: selectedPlan.name, priceCents: selectedPlan.priceCents, interval: selectedPlan.interval } : null}
       />
 
       {/* Página de Pagamento */}

@@ -48,7 +48,7 @@ export default function PaymentModal({ isOpen, onClose, onPaymentComplete, onOpe
     setLoading(true);
     setError(null);
     try {
-      const title = selectedPlan ? `Assinatura ${selectedPlan.name} (${selectedPlan.interval==='monthly'?'Mensal':'Anual'})` : 'Teste de 30 Dias - Sistema Movimento de Caixa';
+      const title = selectedPlan?.name ? `Assinatura ${selectedPlan.name} (${selectedPlan.interval==='monthly'?'Mensal':'Anual'})` : 'Teste de 30 Dias - Sistema Movimento de Caixa';
       const novaCobranca = await pixService.criarCobranca(
         pixAmount,
         formData,
@@ -118,7 +118,7 @@ export default function PaymentModal({ isOpen, onClose, onPaymentComplete, onOpe
     e.preventDefault();
     if (paymentMethod === 'pix' && cobranca) {
       // Abrir WhatsApp com informações do pagamento
-      const message = `Olá! Realizei o pagamento ${selectedPlan ? 'do plano '+selectedPlan.name : 'do teste de 30 dias'} do Sistema de Movimento de Caixa.
+      const message = `Olá! Realizei o pagamento ${selectedPlan?.name ? 'do plano '+selectedPlan.name : 'do teste de 30 dias'} do Sistema de Movimento de Caixa.
 
 📋 **Dados do Pagamento:**
 • Valor: R$ ${pixAmount.toFixed(2)}
@@ -164,7 +164,7 @@ Por favor, confirme o recebimento e envie as instruções de acesso.`;
       }
       // notificar cliente via WhatsApp e e-mail (demo)
       if (formData.phone) {
-        const msg = `✅ Pagamento confirmado! Plano: ${selectedPlan?.name||'Teste'}. Use usuário Webyte para acessar.`;
+        const msg = `✅ Pagamento confirmado! Plano: ${selectedPlan?.name || 'Teste'}. Use usuário Webyte para acessar.`;
         const ok = await whatsappService.sendMessage(formData.phone, msg);
         // persistir log no backend se online
         try {
@@ -180,7 +180,7 @@ Por favor, confirme o recebimento e envie as instruções de acesso.`;
         } catch {}
       }
       if (formData.email) {
-        const payload = { name: formData.name, plan: selectedPlan?.name, txid: cobranca.txid, activationLink: 'http://localhost:5173' };
+        const payload = { name: formData.name, plan: selectedPlan?.name || 'Teste', txid: cobranca.txid, activationLink: 'http://localhost:5173' };
         const ok = await emailService.sendWelcomeEmail(formData.email, payload);
         try {
           const online = await backendService.isOnline();
@@ -200,7 +200,7 @@ Por favor, confirme o recebimento e envie as instruções de acesso.`;
         if (online) {
           const base = backendService.getBaseUrl();
           const purchaser = authUser || 'Webyte';
-          await fetch(`${base}/api/public/subscriptions`, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ username: purchaser, planName: selectedPlan?.name || 'Teste', txid: cobranca.txid }) });
+          await fetch(`${base}/api/public/subscriptions`, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ username: purchaser, planName: selectedPlan?.name || 'Teste de 30 Dias', txid: cobranca.txid }) });
         }
       } catch {}
       onPaymentComplete({ method:'pix', amount: pixAmount, cobranca, plan: selectedPlan||null, discountPct, simulated:true });
@@ -221,8 +221,8 @@ Por favor, confirme o recebimento e envie as instruções de acesso.`;
                 <CreditCard className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold">{selectedPlan ? `Assinatura ${selectedPlan.name}` : 'Teste de 30 Dias'}</h1>
-                <p className="text-green-100 text-xs">R$ {pixAmount.toFixed(2).replace('.', ',')} {selectedPlan ? `• ${selectedPlan.interval==='monthly'?'mês':'ano'}` : ''}</p>
+                <h1 className="text-lg font-bold">{selectedPlan?.name ? `Assinatura ${selectedPlan.name}` : 'Teste de 30 Dias'}</h1>
+                <p className="text-green-100 text-xs">R$ {pixAmount.toFixed(2).replace('.', ',')} {selectedPlan?.interval ? `• ${selectedPlan.interval==='monthly'?'mês':'ano'}` : ''}</p>
               </div>
             </div>
             <button
