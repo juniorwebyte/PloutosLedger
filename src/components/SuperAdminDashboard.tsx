@@ -27,7 +27,10 @@ import {
   EyeOff,
   Crown,
   Zap,
-  X
+  X,
+  FileText,
+  XCircle,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import plansService, { PlanRecord } from '../services/plansService';
@@ -43,7 +46,8 @@ import CustomerManager from './CustomerManager';
 import PDVSystemNew from './PDVSystemNew';
 import AnalyticsDashboard from './AnalyticsDashboard';
 import NotificationSystem from './NotificationSystem';
-import ChatSystem from './ChatSystem';
+// Chat removido por solicitação do cliente
+// import ChatSystem from './ChatSystem';
 import BackupSystem from './BackupSystem';
 import ChatManagement from './ChatManagement';
 import AuditLogsModal from './AuditLogsModal';
@@ -191,7 +195,7 @@ function SuperAdminDashboard({ onBackToLogin }: SuperAdminDashboardProps) {
     { id: 'pdv-system', label: 'Sistema PDV', icon: DollarSign, color: 'green' },
     { id: 'cms', label: 'CMS & Personalização', icon: Settings, color: 'purple' },
     { id: 'notifications', label: 'Notificações', icon: Bell, color: 'orange' },
-    { id: 'chat', label: 'Chat', icon: MessageCircle, color: 'blue' },
+    // Chat removido
     { id: 'chat-management', label: 'Gerenciar Chat', icon: MessageCircle, color: 'indigo' },
     { id: 'audit-logs', label: 'Logs de Auditoria', icon: FileText, color: 'purple' },
     { id: 'security-performance', label: 'Segurança & Performance', icon: Shield, color: 'red' },

@@ -545,85 +545,132 @@ export default function PrintReport({ data }: PrintReportProps) {
             visibility: hidden !important;
           }
           
-          /* Mostrar apenas o elemento de impressão ativo */
-          .print-only {
-            display: block !important;
-            position: static !important;
-            inset: auto !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            background: #fff !important;
-            visibility: visible !important;
-          }
-          
-          .print-only * {
-            visibility: visible !important;
-          }
-
-          /* Configuração da página para impressão */
+          /* Configuração da página para impressão centralizada */
           @page {
             size: 80mm auto;
             margin: 0;
             orientation: portrait;
           }
           
-          /* Cupom completo - layout normal */
-          #print-full {
-            padding: 8mm !important;
+          /* Mostrar apenas o elemento de impressão ativo */
+          .print-only {
+            display: block !important;
+            position: static !important;
+            inset: auto !important;
+            padding: 0 !important;
+            margin: 0 auto !important;
+            background: #fff !important;
+            visibility: visible !important;
             width: 100% !important;
-            max-width: 100% !important;
+            text-align: center !important;
+          }
+          
+          .print-only * {
+            visibility: visible !important;
+          }
+
+          /* CUPOM COMPLETO - CENTRALIZAÇÃO PERFEITA */
+          #print-full {
+            width: 100% !important;
+            max-width: 80mm !important;
+            margin: 0 auto !important;
+            padding: 4mm !important;
             display: block !important;
             visibility: visible !important;
+            text-align: center !important;
+            background: white !important;
           }
           
           #print-full .max-w-xs {
-            max-width: none !important;
             width: 100% !important;
+            max-width: 76mm !important;
+            margin: 0 auto !important;
+            text-align: left !important;
+          }
+          
+          /* Centralizar cabeçalho */
+          #print-full .text-center {
+            text-align: center !important;
+            width: 100% !important;
+          }
+          
+          /* Alinhamento das linhas de entrada/saída */
+          #print-full .flex.justify-between {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            text-align: left !important;
+          }
+          
+          #print-full .flex.justify-between span:first-child {
+            text-align: left !important;
+            flex: 1 !important;
+          }
+          
+          #print-full .flex.justify-between span:last-child {
+            text-align: right !important;
+            margin-left: auto !important;
           }
           
           /* CUPOM REDUZIDO - CENTRALIZAÇÃO PERFEITA */
           #print-reduced {
             width: 100% !important;
-            max-width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            display: block !important;
-            text-align: center !important;
-            position: relative !important;
-            visibility: visible !important;
-          }
-          
-          #print-reduced .max-w-xs {
-            width: 72mm !important;
-            max-width: 72mm !important;
+            max-width: 80mm !important;
             margin: 0 auto !important;
             padding: 2mm !important;
-            line-height: 1.2 !important;
+            display: block !important;
             text-align: center !important;
+            visibility: visible !important;
             background: white !important;
           }
           
-          /* Centralizar todo o conteúdo do cupom reduzido */
-          #print-reduced .max-w-xs .space-y-1 > div {
-            text-align: center !important;
-            justify-content: center !important;
-          }
-          
-          #print-reduced .max-w-xs .space-y-1 > div span:first-child {
-            text-align: right !important;
-            margin-right: 2mm !important;
-          }
-          
-          #print-reduced .max-w-xs .space-y-1 > div span:last-child {
+          #print-reduced .max-w-xs {
+            width: 100% !important;
+            max-width: 76mm !important;
+            margin: 0 auto !important;
             text-align: left !important;
-            margin-left: 2mm !important;
           }
           
-          /* Evitar quebras de página */
+          /* Centralizar cabeçalho do cupom reduzido */
+          #print-reduced .text-center {
+            text-align: center !important;
+            width: 100% !important;
+          }
+          
+          /* Alinhamento das linhas do cupom reduzido */
+          #print-reduced .flex.justify-between {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            text-align: left !important;
+          }
+          
+          #print-reduced .flex.justify-between span:first-child {
+            text-align: left !important;
+            flex: 1 !important;
+          }
+          
+          #print-reduced .flex.justify-between span:last-child {
+            text-align: right !important;
+            margin-left: auto !important;
+          }
+          
+          /* Evitar quebras de página e forçar uma única página */
           #print-full, #print-reduced {
             page-break-inside: avoid !important;
             page-break-after: avoid !important;
             page-break-before: avoid !important;
+            break-inside: avoid !important;
+            height: auto !important;
+            overflow: visible !important;
+          }
+          
+          /* Garantir que não há quebras desnecessárias */
+          #print-full *, #print-reduced * {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
         }
         

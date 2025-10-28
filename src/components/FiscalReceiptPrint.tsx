@@ -33,7 +33,7 @@ export default function FiscalReceiptPrint({
   };
 
   return (
-    <div className="bg-white p-6 font-mono text-xs" style={{ width: '80mm', maxWidth: '100%' }}>
+    <div className="receipt-root bg-white p-6 font-mono text-xs mx-auto" style={{ width: '80mm', maxWidth: '100%' }}>
       {/* Cabeçalho */}
       <div className="text-center border-b-2 border-black pb-3 mb-3">
         <div className="font-bold text-sm mb-1">{companyName}</div>

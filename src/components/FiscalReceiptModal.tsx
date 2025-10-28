@@ -98,10 +98,19 @@ function FiscalReceiptModal({ onClose }: FiscalReceiptModalProps) {
                       size: 80mm auto;
                       margin: 0;
                     }
-                    body {
-                      margin: 0;
-                      padding: 0;
+                    body { margin: 0; padding: 0; }
+                    /* Centralização absoluta do conteúdo impresso */
+                    .receipt-print-wrapper {
+                      width: 100% !important;
+                      min-height: 100vh !important;
+                      display: flex !important;
+                      align-items: flex-start !important;
+                      justify-content: center !important;
+                      padding: 0 !important;
+                      margin: 0 !important;
+                      background: #fff !important;
                     }
+                    .receipt-root { margin: 0 auto !important; }
                   }
                   body {
                     font-family: 'Courier New', monospace;
@@ -111,7 +120,7 @@ function FiscalReceiptModal({ onClose }: FiscalReceiptModalProps) {
                 </style>
               </head>
               <body>
-                ${printRef.current.innerHTML}
+                <div class="receipt-print-wrapper">${printRef.current.innerHTML}</div>
               </body>
             </html>
           `);

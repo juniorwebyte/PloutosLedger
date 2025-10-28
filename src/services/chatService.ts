@@ -202,6 +202,40 @@ class ChatService {
     return newMessage;
   }
 
+  // Editar mensagem por id
+  editMessage(sessionId: string, messageId: string, newText: string) {
+    const session = this.sessions.find(s => s.id === sessionId);
+    if (!session) return;
+    const msg = this.messages.find(m => m.id === messageId && m.userId === session.userId);
+    if (!msg) return;
+    msg.message = newText;
+    msg.timestamp = new Date();
+    this.saveData();
+    this.notifyListeners();
+  }
+
+  // Excluir mensagem por id
+  deleteMessage(sessionId: string, messageId: string) {
+    const session = this.sessions.find(s => s.id === sessionId);
+    if (!session) return;
+    this.messages = this.messages.filter(m => !(m.id === messageId && m.userId === session.userId));
+    // atualizar contagem
+    const count = this.messages.filter(m => m.userId === session.userId).length;
+    session.messageCount = count;
+    this.saveData();
+    this.notifyListeners();
+  }
+
+  // Excluir conversa inteira
+  deleteSession(sessionId: string) {
+    const session = this.sessions.find(s => s.id === sessionId);
+    if (!session) return;
+    this.sessions = this.sessions.filter(s => s.id !== sessionId);
+    this.messages = this.messages.filter(m => m.userId !== session.userId);
+    this.saveData();
+    this.notifyListeners();
+  }
+
   // Obter sessões
   getSessions(): ChatSession[] {
     return [...this.sessions];

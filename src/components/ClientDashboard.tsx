@@ -13,11 +13,16 @@ import {
   ShoppingCart,
   FileText,
   Calendar,
-  ArrowLeft
+  ArrowLeft,
+  Crown,
+  Lock
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useAccessControl } from '../hooks/useAccessControl';
 import CashFlow from './CashFlow';
 import OwnerPanel from './OwnerPanel';
+import AccessLimitationModal from './AccessLimitationModal';
+import PaymentModal from './PaymentModal';
 import { CompanyConfig } from '../types';
 
 interface ClientDashboardProps {
@@ -26,10 +31,15 @@ interface ClientDashboardProps {
 
 function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
   const { logout, user, role } = useAuth();
+  const accessControl = useAccessControl();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showOwnerPanel, setShowOwnerPanel] = useState(false);
   const [companyConfig, setCompanyConfig] = useState<CompanyConfig | null>(null);
   const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean>(false);
+  const [showLimitationModal, setShowLimitationModal] = useState(false);
+  const [limitationType, setLimitationType] = useState<string>('');
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<{ name: string; priceCents: number; interval: 'monthly'|'yearly' } | null>(null);
 
   useEffect(()=>{
     const subs = JSON.parse(localStorage.getItem('demo_subscriptions')||'[]');
@@ -47,13 +57,23 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
     ticketMedio: 85.30
   };
 
+  const handlePremiumFeatureClick = (feature: string) => {
+    if (!accessControl.canAccessFeature(feature)) {
+      setLimitationType(feature);
+      setShowLimitationModal(true);
+      return;
+    }
+    // Se tem acesso, permitir navegação
+    setActiveTab(feature);
+  };
+
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3, color: 'blue' },
-    { id: 'caixa', label: 'Movimento de Caixa', icon: DollarSign, color: 'green' },
-    { id: 'vendas', label: 'Vendas', icon: ShoppingCart, color: 'purple', premium: true },
-    { id: 'estoque', label: 'Estoque', icon: Package, color: 'orange', premium: true },
-    { id: 'clientes', label: 'Clientes', icon: Users, color: 'pink' },
-    { id: 'relatorios', label: 'Relatórios', icon: FileText, color: 'indigo', premium: true },
+    { id: 'caixa', label: 'Movimento de Caixa', icon: DollarSign, color: 'green', requiresAccess: 'cashflow' },
+    { id: 'vendas', label: 'Vendas', icon: ShoppingCart, color: 'purple', premium: true, requiresAccess: 'advanced' },
+    { id: 'estoque', label: 'Estoque', icon: Package, color: 'orange', premium: true, requiresAccess: 'advanced' },
+    { id: 'clientes', label: 'Clientes', icon: Users, color: 'pink', requiresAccess: 'customers' },
+    { id: 'relatorios', label: 'Relatórios', icon: FileText, color: 'indigo', premium: true, requiresAccess: 'reports' },
     { id: 'meuplano', label: 'Meu Plano', icon: CreditCard, color: 'green' },
     { id: 'configuracoes', label: 'Configurações', icon: Settings, color: 'gray' }
   ];
@@ -214,11 +234,19 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
             </div>
           </div>
         ) : (
-          <div className="text-gray-600">Nenhuma assinatura encontrada. Contrate um plano pela landing page.</div>
+          <div className="text-gray-600">Nenhuma assinatura encontrada.</div>
         )}
         <div className="mt-6 flex gap-3">
-          <button onClick={()=>setActiveTab('caixa')} className="px-4 py-2 bg-indigo-600 text-white rounded-lg">Ir para o Caixa</button>
-          <button onClick={()=>alert('Fatura gerada (demo)')} className="px-4 py-2 border rounded-lg">Gerar Fatura</button>
+          <button onClick={() => {
+            if (!accessControl.canAccessFeature('cashflow')) {
+              setLimitationType('cashflow');
+              setShowLimitationModal(true);
+              return;
+            }
+            setActiveTab('caixa');
+          }} className="px-4 py-2 bg-indigo-600 text-white rounded-lg">Ir para o Caixa</button>
+          <button onClick={()=>{ setSelectedPlan({ name:'Starter', priceCents:2999, interval:'monthly' }); setShowPaymentModal(true); }} className="px-4 py-2 border rounded-lg">Ver Planos</button>
+          <button onClick={()=>{ setSelectedPlan({ name:'Teste 30 Dias', priceCents:0, interval:'monthly' }); setShowPaymentModal(true); }} className="px-4 py-2 border rounded-lg">Gerar Fatura</button>
         </div>
       </div>
     );
@@ -233,6 +261,27 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
       case 'meuplano':
         return renderMeuPlano();
       case 'vendas':
+        if (!accessControl.canAccessFeature('advanced')) {
+          return (
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-amber-200">
+              <div className="flex items-center gap-3 mb-4">
+                <Lock className="h-6 w-6 text-amber-500" />
+                <h2 className="text-2xl font-bold text-gray-800">Gestão de Vendas</h2>
+                <Crown className="h-5 w-5 text-amber-500" />
+              </div>
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+                <p className="text-amber-700 font-medium mb-2">🔒 Funcionalidade Premium</p>
+                <p className="text-amber-600 text-sm">Este módulo está disponível apenas para usuários com plano ativo.</p>
+              </div>
+              <button 
+                onClick={() => setActiveTab('meuplano')}
+                className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+              >
+                Ver Planos Disponíveis
+              </button>
+            </div>
+          );
+        }
         return (
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Gestão de Vendas</h2>
@@ -240,6 +289,27 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
           </div>
         );
       case 'estoque':
+        if (!accessControl.canAccessFeature('advanced')) {
+          return (
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-amber-200">
+              <div className="flex items-center gap-3 mb-4">
+                <Lock className="h-6 w-6 text-amber-500" />
+                <h2 className="text-2xl font-bold text-gray-800">Gestão de Estoque</h2>
+                <Crown className="h-5 w-5 text-amber-500" />
+              </div>
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+                <p className="text-amber-700 font-medium mb-2">🔒 Funcionalidade Premium</p>
+                <p className="text-amber-600 text-sm">Este módulo está disponível apenas para usuários com plano ativo.</p>
+              </div>
+              <button 
+                onClick={() => setActiveTab('meuplano')}
+                className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+              >
+                Ver Planos Disponíveis
+              </button>
+            </div>
+          );
+        }
         return (
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Gestão de Estoque</h2>
@@ -247,6 +317,27 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
           </div>
         );
       case 'clientes':
+        if (!accessControl.canAccessFeature('customers')) {
+          return (
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-amber-200">
+              <div className="flex items-center gap-3 mb-4">
+                <Lock className="h-6 w-6 text-amber-500" />
+                <h2 className="text-2xl font-bold text-gray-800">Gestão de Clientes</h2>
+                <Crown className="h-5 w-5 text-amber-500" />
+              </div>
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+                <p className="text-amber-700 font-medium mb-2">🔒 Funcionalidade Limitada</p>
+                <p className="text-amber-600 text-sm">Este módulo está limitado para usuários sem plano ativo.</p>
+              </div>
+              <button 
+                onClick={() => setActiveTab('meuplano')}
+                className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+              >
+                Ver Planos Disponíveis
+              </button>
+            </div>
+          );
+        }
         return (
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Gestão de Clientes</h2>
@@ -254,6 +345,27 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
           </div>
         );
       case 'relatorios':
+        if (!accessControl.canAccessFeature('reports')) {
+          return (
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-amber-200">
+              <div className="flex items-center gap-3 mb-4">
+                <Lock className="h-6 w-6 text-amber-500" />
+                <h2 className="text-2xl font-bold text-gray-800">Relatórios</h2>
+                <Crown className="h-5 w-5 text-amber-500" />
+              </div>
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+                <p className="text-amber-700 font-medium mb-2">🔒 Funcionalidade Premium</p>
+                <p className="text-amber-600 text-sm">Relatórios avançados estão disponíveis apenas para usuários com plano ativo.</p>
+              </div>
+              <button 
+                onClick={() => setActiveTab('meuplano')}
+                className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+              >
+                Ver Planos Disponíveis
+              </button>
+            </div>
+          );
+        }
         return (
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Relatórios</h2>
@@ -331,22 +443,33 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
-                const isDisabled = (item as any).premium && !hasActiveSubscription;
+                const hasAccess = !(item as any).requiresAccess || accessControl.canAccessFeature((item as any).requiresAccess);
+                const isLocked = (item as any).requiresAccess && !hasAccess;
                 
                 return (
                   <li key={item.id}>
                     <button
-                      onClick={() => { if (!isDisabled) setActiveTab(item.id); }}
-                      disabled={isDisabled}
-                      title={isDisabled? 'Requer assinatura ativa':''}
+                      onClick={() => {
+                        if (isLocked) {
+                          handlePremiumFeatureClick((item as any).requiresAccess);
+                        } else {
+                          setActiveTab(item.id);
+                        }
+                      }}
+                      title={isLocked ? 'Funcionalidade limitada - clique para ver planos' : ''}
                       className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                         isActive
                           ? `bg-gradient-to-r ${getColorClasses(item.color)} text-white shadow-lg`
-                          : isDisabled ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                          : isLocked 
+                            ? 'text-amber-500 hover:bg-amber-50 border border-amber-200 relative' 
+                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
                       }`}
                     >
-                      <Icon className="w-5 h-5" />
-                      <span className="font-medium">{item.label}</span>
+                      <Icon className={`w-5 h-5 ${isLocked ? 'opacity-60' : ''}`} />
+                      <span className={`font-medium ${isLocked ? 'opacity-60' : ''}`}>{item.label}</span>
+                      {isLocked && (
+                        <Lock className="w-4 h-4 text-amber-500 ml-auto" />
+                      )}
                     </button>
                   </li>
                 );
@@ -366,6 +489,34 @@ function ClientDashboard({ onBackToLogin }: ClientDashboardProps) {
         isOpen={showOwnerPanel}
         onClose={() => setShowOwnerPanel(false)}
         onConfigUpdate={(config) => setCompanyConfig(config)}
+      />
+      
+      {/* Modal de Limitação de Acesso */}
+      <AccessLimitationModal
+        isOpen={showLimitationModal}
+        onClose={() => setShowLimitationModal(false)}
+        onUpgrade={() => {
+          setShowLimitationModal(false);
+          setSelectedPlan({ name:'Starter', priceCents:2999, interval:'monthly' });
+          setShowPaymentModal(true);
+        }}
+        limitation={limitationType}
+      />
+
+      {/* Modal de Pagamento (PIX/Cartão) dentro do painel */}
+      <PaymentModal
+        isOpen={showPaymentModal}
+        selectedPlan={selectedPlan || undefined}
+        onClose={() => setShowPaymentModal(false)}
+        onPaymentComplete={(data)=>{
+          // salvar assinatura demo/local
+          const subs = JSON.parse(localStorage.getItem('demo_subscriptions')||'[]');
+          subs.push({ txid: data?.cobranca?.txid || String(Date.now()), plan: selectedPlan, createdAt: new Date().toISOString(), status: 'active', discountPct: data?.discountPct || 0 });
+          localStorage.setItem('demo_subscriptions', JSON.stringify(subs));
+          setShowPaymentModal(false);
+          setHasActiveSubscription(true);
+          setActiveTab('dashboard');
+        }}
       />
     </div>
   );

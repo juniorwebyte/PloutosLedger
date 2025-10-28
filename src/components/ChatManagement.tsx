@@ -260,7 +260,11 @@ export default function ChatManagement() {
                 
                 <div className="flex items-center justify-between text-xs text-gray-500">
                   <span>{session.messageCount} mensagens</span>
-                  <span>{session.lastActivity.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                  <div className="flex items-center gap-2">
+                    <button onClick={(e)=>{ e.stopPropagation(); const msgs = chatService.getSessionMessages(session.id); if (msgs.length>0) { const novo = prompt('Editar última mensagem desta conversa:'); if (novo) { const last = msgs[msgs.length-1]; chatService.editMessage(session.id, last.id, novo); } }} } className="px-2 py-1 border rounded hover:bg-gray-50">Editar última</button>
+                    <button onClick={(e)=>{ e.stopPropagation(); if (confirm('Excluir conversa?')) chatService.deleteSession(session.id); }} className="px-2 py-1 border rounded text-red-600 hover:bg-red-50">Excluir</button>
+                    <span>{session.lastActivity.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -318,14 +322,12 @@ export default function ChatManagement() {
                       }`}
                     >
                       <p className="text-sm">{message.message}</p>
-                      <p className={`text-xs mt-1 ${
+                      <div className={`text-xs mt-1 flex items-center gap-2 ${
                         message.userName === 'Admin' ? 'text-indigo-100' : 'text-gray-500'
                       }`}>
-                        {message.timestamp.toLocaleTimeString('pt-BR', { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
-                        })}
-                      </p>
+                        <span>{message.timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                        <button onClick={()=> chatService.deleteMessage(selectedSession!.id, message.id)} className="underline-offset-2 hover:underline">remover</button>
+                      </div>
                     </div>
                     
                     {message.userName === 'Admin' && (
