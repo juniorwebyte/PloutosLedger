@@ -492,7 +492,7 @@ export default function PrintReport({ data }: PrintReportProps) {
                   <div className="flex items-center justify-center mb-1">
                     <div className="flex items-center space-x-1">
                       <div className="w-6 h-6 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">G</span>
+                        <span className="text-white text-xs font-bold">P</span>
                       </div>
                       <span className="text-xs font-bold text-gray-800">WebTec</span>
                       <span className="text-xs text-gray-600">®</span>
