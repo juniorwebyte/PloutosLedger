@@ -91,7 +91,7 @@ const FooterPages: React.FC<FooterPagesProps> = ({ onBackToLanding }) => {
               className="p-6 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105"
             >
               <h3 className="text-xl font-bold mb-2">Suporte</h3>
-              <p className="text-orange-100">Chat Online, Telefone, Email</p>
+              <p className="text-orange-100">Chat Online, Telefone, E-mail</p>
             </button>
           </div>
         </div>
